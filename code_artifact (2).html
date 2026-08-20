@@ -1,0 +1,1633 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lekcja 1: Pierwsze kroki w języku polskim (Расширенный курс)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .tab-btn.active {
+            border-bottom: 3px solid #dc2626;
+            color: #dc2626;
+            font-weight: 700;
+            background-color: #fef2f2;
+        }
+        .perspective-1000 { perspective: 1000px; }
+        .flip-card-inner {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .flip-card.flipped .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front, .flip-card-back {
+            backface-visibility: hidden;
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- Header / Navbar -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-6 bg-slate-200 rounded overflow-hidden flex flex-col border border-slate-300">
+                    <div class="h-1/2 bg-white"></div>
+                    <div class="h-1/2 bg-red-600"></div>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-slate-900">Język Polski | <span class="text-red-600 font-bold">Lekcja 1 (Интерактив)</span></h1>
+                    <p class="text-xs text-slate-500 hidden sm:block">Интерактивный тренажер, игры, симулятор чата и озвучка</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3">
+                <div class="bg-amber-100 text-amber-900 px-3 py-1.5 rounded-full text-xs font-black flex items-center gap-1.5 border border-amber-300 shadow-sm">
+                    <i class="fa-solid fa-star text-amber-500 text-sm"></i>
+                    <span id="xp-counter">0</span> XP
+                </div>
+                <span class="bg-red-100 text-red-800 text-xs px-2.5 py-1.5 rounded-full font-bold hidden md:inline-block">A0 → A1</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-6xl mx-auto px-4 py-6 flex-grow w-full">
+
+        <!-- Navigation Tabs -->
+        <div class="flex border-b border-slate-200 mb-6 overflow-x-auto bg-white rounded-t-xl px-2 shadow-sm scrollbar-none">
+            <button onclick="switchTab('phonetics')" id="tab-phonetics" class="tab-btn active py-3 px-4 text-xs sm:text-sm font-medium whitespace-nowrap transition-all rounded-t-lg">
+                1. Флип-Карточки & Фонетика
+            </button>
+            <button onclick="switchTab('alphabet')" id="tab-alphabet" class="tab-btn py-3 px-4 text-xs sm:text-sm font-medium whitespace-nowrap transition-all rounded-t-lg">
+                2. Алфавит & Числа (0-10)
+            </button>
+            <button onclick="switchTab('games')" id="tab-games" class="tab-btn py-3 px-4 text-xs sm:text-sm font-medium whitespace-nowrap transition-all rounded-t-lg bg-red-50 text-red-600 font-bold">
+                🎮 3. Игры: Телефон & Сборщик слов
+            </button>
+            <button onclick="switchTab('chat')" id="tab-chat" class="tab-btn py-3 px-4 text-xs sm:text-sm font-medium whitespace-nowrap transition-all rounded-t-lg bg-emerald-50 text-emerald-700 font-bold">
+                💬 4. Симулятор Чат-Диалога
+            </button>
+            <button onclick="switchTab('grammar')" id="tab-grammar" class="tab-btn py-3 px-4 text-xs sm:text-sm font-medium whitespace-nowrap transition-all rounded-t-lg">
+                5. Грамматика (Być / Imie)
+            </button>
+            <button onclick="switchTab('dialogue')" id="tab-dialogue" class="tab-btn py-3 px-4 text-xs sm:text-sm font-medium whitespace-nowrap transition-all rounded-t-lg">
+                6. 4 Диалога по ролям
+            </button>
+            <button onclick="switchTab('quiz')" id="tab-quiz" class="tab-btn py-3 px-4 text-xs sm:text-sm font-medium whitespace-nowrap transition-all rounded-t-lg">
+                7. Квиз & Проверка
+            </button>
+            <button onclick="switchTab('reading')" id="tab-reading" class="tab-btn py-3 px-4 text-xs sm:text-sm font-medium whitespace-nowrap transition-all rounded-t-lg bg-amber-50 text-amber-800 font-bold">
+                📖 8. Чтение & Перевод (30 предложений)
+            </button>
+        </div>
+
+        <!-- TAB 1: PHONETICS 3D FLIP CARDS -->
+        <section id="phonetics" class="tab-content block space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <div class="mb-6 border-b border-slate-100 pb-4 flex justify-between items-center">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-900">1. Интерактивные карточки произношения</h2>
+                        <p class="text-slate-600">Нажмите на карточку, чтобы перевернуть её и услышать правильное произношение!</p>
+                    </div>
+                    <span class="text-xs bg-slate-100 text-slate-600 px-3 py-1 rounded-full font-medium">Клик = Переворот + Звук</span>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                    <!-- Flip Card 1 -->
+                    <div onclick="flipCard(this, 'Cześć! Czekolada')" class="flip-card perspective-1000 h-40 cursor-pointer">
+                        <div class="flip-card-inner relative w-full h-full text-center rounded-2xl shadow-sm border border-slate-200">
+                            <div class="flip-card-front absolute w-full h-full bg-slate-50 rounded-2xl p-4 flex flex-col justify-center items-center">
+                                <span class="text-3xl font-black text-red-600">CZ</span>
+                                <span class="text-xs bg-red-100 text-red-800 px-2.5 py-0.5 rounded-full font-bold mt-2">= Твердое Ч</span>
+                                <p class="text-xs text-slate-400 mt-2"><i class="fa-solid fa-rotate mr-1"></i>Нажмите, чтобы перевернуть</p>
+                            </div>
+                            <div class="flip-card-back absolute w-full h-full bg-red-600 text-white rounded-2xl p-4 flex flex-col justify-center items-center">
+                                <p class="text-xl font-bold">Cześć! / Czekolada</p>
+                                <p class="text-xs text-red-200 mt-1">Привет! / Шоколад</p>
+                                <i class="fa-solid fa-volume-high text-2xl mt-3 animate-bounce"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flip Card 2 -->
+                    <div onclick="flipCard(this, 'Szafa. Szkoła. Szum')" class="flip-card perspective-1000 h-40 cursor-pointer">
+                        <div class="flip-card-inner relative w-full h-full text-center rounded-2xl shadow-sm border border-slate-200">
+                            <div class="flip-card-front absolute w-full h-full bg-slate-50 rounded-2xl p-4 flex flex-col justify-center items-center">
+                                <span class="text-3xl font-black text-red-600">SZ</span>
+                                <span class="text-xs bg-red-100 text-red-800 px-2.5 py-0.5 rounded-full font-bold mt-2">= Твердое Ш</span>
+                                <p class="text-xs text-slate-400 mt-2"><i class="fa-solid fa-rotate mr-1"></i>Нажмите, чтобы перевернуть</p>
+                            </div>
+                            <div class="flip-card-back absolute w-full h-full bg-red-600 text-white rounded-2xl p-4 flex flex-col justify-center items-center">
+                                <p class="text-xl font-bold">Szafa / Szkoła</p>
+                                <p class="text-xs text-red-200 mt-1">Шкаф / Школа</p>
+                                <i class="fa-solid fa-volume-high text-2xl mt-3 animate-bounce"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flip Card 3 -->
+                    <div onclick="flipCard(this, 'Rzeka. Żona. Rzecz')" class="flip-card perspective-1000 h-40 cursor-pointer">
+                        <div class="flip-card-inner relative w-full h-full text-center rounded-2xl shadow-sm border border-slate-200">
+                            <div class="flip-card-front absolute w-full h-full bg-slate-50 rounded-2xl p-4 flex flex-col justify-center items-center">
+                                <span class="text-3xl font-black text-red-600">RZ / Ż</span>
+                                <span class="text-xs bg-red-100 text-red-800 px-2.5 py-0.5 rounded-full font-bold mt-2">= Твердое Ж</span>
+                                <p class="text-xs text-slate-400 mt-2"><i class="fa-solid fa-rotate mr-1"></i>Нажмите, чтобы перевернуть</p>
+                            </div>
+                            <div class="flip-card-back absolute w-full h-full bg-red-600 text-white rounded-2xl p-4 flex flex-col justify-center items-center">
+                                <p class="text-xl font-bold">Rzeka / Żona</p>
+                                <p class="text-xs text-red-200 mt-1">Река / Жена</p>
+                                <i class="fa-solid fa-volume-high text-2xl mt-3 animate-bounce"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flip Card 4 -->
+                    <div onclick="flipCard(this, 'Dzień. Ciemno. Cześć')" class="flip-card perspective-1000 h-40 cursor-pointer">
+                        <div class="flip-card-inner relative w-full h-full text-center rounded-2xl shadow-sm border border-slate-200">
+                            <div class="flip-card-front absolute w-full h-full bg-slate-50 rounded-2xl p-4 flex flex-col justify-center items-center">
+                                <span class="text-3xl font-black text-red-600">Ś / CI / Ć</span>
+                                <span class="text-xs bg-red-100 text-red-800 px-2.5 py-0.5 rounded-full font-bold mt-2">= Мягкие Щ / Ч</span>
+                                <p class="text-xs text-slate-400 mt-2"><i class="fa-solid fa-rotate mr-1"></i>Нажмите, чтобы перевернуть</p>
+                            </div>
+                            <div class="flip-card-back absolute w-full h-full bg-red-600 text-white rounded-2xl p-4 flex flex-col justify-center items-center">
+                                <p class="text-xl font-bold">Dzień / Ciemno</p>
+                                <p class="text-xs text-red-200 mt-1">День / Темно</p>
+                                <i class="fa-solid fa-volume-high text-2xl mt-3 animate-bounce"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flip Card 5 -->
+                    <div onclick="flipCard(this, 'Ładnie. Chłopak. Łódź')" class="flip-card perspective-1000 h-40 cursor-pointer">
+                        <div class="flip-card-inner relative w-full h-full text-center rounded-2xl shadow-sm border border-slate-200">
+                            <div class="flip-card-front absolute w-full h-full bg-slate-50 rounded-2xl p-4 flex flex-col justify-center items-center">
+                                <span class="text-3xl font-black text-red-600">Ł</span>
+                                <span class="text-xs bg-red-100 text-red-800 px-2.5 py-0.5 rounded-full font-bold mt-2">= [У] (как англ. W)</span>
+                                <p class="text-xs text-slate-400 mt-2"><i class="fa-solid fa-rotate mr-1"></i>Нажмите, чтобы перевернуть</p>
+                            </div>
+                            <div class="flip-card-back absolute w-full h-full bg-red-600 text-white rounded-2xl p-4 flex flex-col justify-center items-center">
+                                <p class="text-xl font-bold">Ładnie / Chłopak</p>
+                                <p class="text-xs text-red-200 mt-1">Красиво / Парень</p>
+                                <i class="fa-solid fa-volume-high text-2xl mt-3 animate-bounce"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Flip Card 6 -->
+                    <div onclick="flipCard(this, 'Mąż. Dziękuję. Bęben')" class="flip-card perspective-1000 h-40 cursor-pointer">
+                        <div class="flip-card-inner relative w-full h-full text-center rounded-2xl shadow-sm border border-slate-200">
+                            <div class="flip-card-front absolute w-full h-full bg-slate-50 rounded-2xl p-4 flex flex-col justify-center items-center">
+                                <span class="text-3xl font-black text-red-600">Ą / Ę</span>
+                                <span class="text-xs bg-red-100 text-red-800 px-2.5 py-0.5 rounded-full font-bold mt-2">= Носовые [ОН] / [ЭН]</span>
+                                <p class="text-xs text-slate-400 mt-2"><i class="fa-solid fa-rotate mr-1"></i>Нажмите, чтобы перевернуть</p>
+                            </div>
+                            <div class="flip-card-back absolute w-full h-full bg-red-600 text-white rounded-2xl p-4 flex flex-col justify-center items-center">
+                                <p class="text-xl font-bold">Mąż / Dziękuję</p>
+                                <p class="text-xs text-red-200 mt-1">Муж / Спасибо</p>
+                                <i class="fa-solid fa-volume-high text-2xl mt-3 animate-bounce"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: INTERACTIVE GAMES (KEYPAD & SENTENCE BUILDER) -->
+        <section id="games" class="tab-content hidden space-y-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+                <!-- Game 1: Interactive Audio Keypad (Phone Game) -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-2 mb-3">
+                            <span class="p-2 bg-red-100 text-red-600 rounded-lg"><i class="fa-solid fa-phone text-xl"></i></span>
+                            <h3 class="text-xl font-bold text-slate-900">Игра: Позвони по телефону!</h3>
+                        </div>
+                        <p class="text-xs text-slate-500 mb-4">Нажмите «Слушать номер», прослушайте продиктованный польский номер и наберите его на дисководе!</p>
+
+                        <div class="flex justify-between items-center bg-slate-100 p-3 rounded-xl mb-4 border border-slate-200">
+                            <button onclick="playPhoneAudio()" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg text-xs flex items-center gap-2">
+                                <i class="fa-solid fa-volume-high"></i> Слушать номер
+                            </button>
+                            <div class="text-right">
+                                <span class="text-[10px] text-slate-400 block uppercase font-bold">Введенный номер:</span>
+                                <span id="phone-display" class="font-mono text-xl font-black text-slate-800 tracking-widest">______</span>
+                            </div>
+                        </div>
+
+                        <!-- Dial Pad -->
+                        <div class="grid grid-cols-3 gap-2 max-w-xs mx-auto mb-4">
+                            <button onclick="pressDigit('1')" class="p-3 bg-slate-50 hover:bg-red-50 border rounded-xl font-bold text-slate-800 text-lg hover:border-red-400">1</button>
+                            <button onclick="pressDigit('2')" class="p-3 bg-slate-50 hover:bg-red-50 border rounded-xl font-bold text-slate-800 text-lg hover:border-red-400">2</button>
+                            <button onclick="pressDigit('3')" class="p-3 bg-slate-50 hover:bg-red-50 border rounded-xl font-bold text-slate-800 text-lg hover:border-red-400">3</button>
+                            <button onclick="pressDigit('4')" class="p-3 bg-slate-50 hover:bg-red-50 border rounded-xl font-bold text-slate-800 text-lg hover:border-red-400">4</button>
+                            <button onclick="pressDigit('5')" class="p-3 bg-slate-50 hover:bg-red-50 border rounded-xl font-bold text-slate-800 text-lg hover:border-red-400">5</button>
+                            <button onclick="pressDigit('6')" class="p-3 bg-slate-50 hover:bg-red-50 border rounded-xl font-bold text-slate-800 text-lg hover:border-red-400">6</button>
+                            <button onclick="pressDigit('7')" class="p-3 bg-slate-50 hover:bg-red-50 border rounded-xl font-bold text-slate-800 text-lg hover:border-red-400">7</button>
+                            <button onclick="pressDigit('8')" class="p-3 bg-slate-50 hover:bg-red-50 border rounded-xl font-bold text-slate-800 text-lg hover:border-red-400">8</button>
+                            <button onclick="pressDigit('9')" class="p-3 bg-slate-50 hover:bg-red-50 border rounded-xl font-bold text-slate-800 text-lg hover:border-red-400">9</button>
+                            <button onclick="clearDigit()" class="p-3 bg-rose-50 hover:bg-rose-100 border border-rose-200 rounded-xl font-bold text-rose-600 text-sm">Сброс</button>
+                            <button onclick="pressDigit('0')" class="p-3 bg-slate-50 hover:bg-red-50 border rounded-xl font-bold text-slate-800 text-lg hover:border-red-400">0</button>
+                            <button onclick="checkPhone()" class="p-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-sm">Вызов</button>
+                        </div>
+                    </div>
+                    <div id="phone-feedback" class="text-center font-bold text-xs h-5"></div>
+                </div>
+
+                <!-- Game 2: Word Order Sentence Puzzle -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center space-x-2 mb-3">
+                            <span class="p-2 bg-emerald-100 text-emerald-600 rounded-lg"><i class="fa-solid fa-puzzle-piece text-xl"></i></span>
+                            <h3 class="text-xl font-bold text-slate-900">Пазл: Соберите предложение</h3>
+                        </div>
+                        <p class="text-xs text-slate-500 mb-2">Задание: Соберите фразу <strong class="text-slate-800">«Меня зовут Анна, я из Украины»</strong></p>
+
+                        <!-- Selected Word Slot -->
+                        <div id="puzzle-slot" class="min-h-[50px] bg-slate-50 border-2 border-dashed border-slate-300 rounded-xl p-2 flex flex-wrap gap-2 items-center mb-4">
+                            <span class="text-xs text-slate-400 italic" id="puzzle-placeholder">Кликайте на слова ниже...</span>
+                        </div>
+
+                        <!-- Available Words -->
+                        <div id="puzzle-words" class="flex flex-wrap gap-2 mb-6">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+
+                    <div class="flex gap-2">
+                        <button onclick="resetPuzzle()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs">
+                            Сбросить
+                        </button>
+                        <button onclick="checkPuzzle()" class="flex-grow py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs">
+                            Проверить фразы
+                        </button>
+                    </div>
+                    <div id="puzzle-feedback" class="text-center font-bold text-xs mt-2 h-4"></div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- TAB 4: SIMULATED LIVE CHAT ROLEPLAY -->
+        <section id="chat" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 max-w-3xl mx-auto">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-4 mb-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="relative">
+                            <div class="w-10 h-10 rounded-full bg-red-600 text-white font-bold flex items-center justify-center">K</div>
+                            <span class="w-3 h-3 bg-emerald-500 border-2 border-white rounded-full absolute bottom-0 right-0"></span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900">Pani Kasia (Учительница)</h3>
+                            <p class="text-xs text-emerald-600 font-semibold">Онлайн • Симулятор переписки</p>
+                        </div>
+                    </div>
+                    <button onclick="restartChat()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-1.5 rounded-lg font-bold">
+                        <i class="fa-solid fa-rotate-left mr-1"></i> Начать заново
+                    </button>
+                </div>
+
+                <!-- Chat Messages Window -->
+                <div id="chat-window" class="h-80 overflow-y-auto bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3 mb-4">
+                    <!-- Dynamic chat bubbles will go here -->
+                </div>
+
+                <!-- Response Options -->
+                <div id="chat-options" class="space-y-2">
+                    <!-- Option buttons generated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: ALPHABET & NUMBERS -->
+        <section id="alphabet" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2">2. Польские особые буквы и цифры (0–10)</h2>
+                <p class="text-slate-600 mb-6">В польском алфавите 32 буквы. Вот уникальные буквы с диакритическими знаками, а также базовый счет:</p>
+
+                <!-- Diacritics grid -->
+                <h3 class="text-lg font-bold text-slate-800 mb-3">Особые польские буквы (Litery specjalne)</h3>
+                <div class="grid grid-cols-3 sm:grid-cols-9 gap-2 mb-8">
+                    <button onclick="speak('Ą')" class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-center hover:bg-red-50 hover:border-red-300 transition">
+                        <span class="block text-2xl font-black text-red-600">Ą ą</span>
+                        <span class="text-[10px] text-slate-500">[он]</span>
+                    </button>
+                    <button onclick="speak('Ć')" class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-center hover:bg-red-50 hover:border-red-300 transition">
+                        <span class="block text-2xl font-black text-red-600">Ć ć</span>
+                        <span class="text-[10px] text-slate-500">[чь]</span>
+                    </button>
+                    <button onclick="speak('Ę')" class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-center hover:bg-red-50 hover:border-red-300 transition">
+                        <span class="block text-2xl font-black text-red-600">Ę ę</span>
+                        <span class="text-[10px] text-slate-500">[эн]</span>
+                    </button>
+                    <button onclick="speak('Ł')" class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-center hover:bg-red-50 hover:border-red-300 transition">
+                        <span class="block text-2xl font-black text-red-600">Ł ł</span>
+                        <span class="text-[10px] text-slate-500">[у]</span>
+                    </button>
+                    <button onclick="speak('Ń')" class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-center hover:bg-red-50 hover:border-red-300 transition">
+                        <span class="block text-2xl font-black text-red-600">Ń ń</span>
+                        <span class="text-[10px] text-slate-500">[нь]</span>
+                    </button>
+                    <button onclick="speak('Ó')" class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-center hover:bg-red-50 hover:border-red-300 transition">
+                        <span class="block text-2xl font-black text-red-600">Ó ó</span>
+                        <span class="text-[10px] text-slate-500">[у]</span>
+                    </button>
+                    <button onclick="speak('Ś')" class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-center hover:bg-red-50 hover:border-red-300 transition">
+                        <span class="block text-2xl font-black text-red-600">Ś ś</span>
+                        <span class="text-[10px] text-slate-500">[щь]</span>
+                    </button>
+                    <button onclick="speak('Ź')" class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-center hover:bg-red-50 hover:border-red-300 transition">
+                        <span class="block text-2xl font-black text-red-600">Ź ź</span>
+                        <span class="text-[10px] text-slate-500">[жь мягк.]</span>
+                    </button>
+                    <button onclick="speak('Ż')" class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-center hover:bg-red-50 hover:border-red-300 transition">
+                        <span class="block text-2xl font-black text-red-600">Ż ż</span>
+                        <span class="text-[10px] text-slate-500">[ж тверд.]</span>
+                    </button>
+                </div>
+
+                <!-- Numbers 0-10 -->
+                <h3 class="text-lg font-bold text-slate-800 mb-3">Числа от 0 до 10 (Liczby 0-10)</h3>
+                <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 gap-3">
+                    <button onclick="speak('Zero')" class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-left hover:border-red-400 transition">
+                        <span class="text-xs font-bold text-red-600">0</span>
+                        <p class="font-bold text-slate-800">Zero</p>
+                    </button>
+                    <button onclick="speak('Jeden')" class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-left hover:border-red-400 transition">
+                        <span class="text-xs font-bold text-red-600">1</span>
+                        <p class="font-bold text-slate-800">Jeden</p>
+                    </button>
+                    <button onclick="speak('Dwa')" class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-left hover:border-red-400 transition">
+                        <span class="text-xs font-bold text-red-600">2</span>
+                        <p class="font-bold text-slate-800">Dwa</p>
+                    </button>
+                    <button onclick="speak('Trzy')" class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-left hover:border-red-400 transition">
+                        <span class="text-xs font-bold text-red-600">3</span>
+                        <p class="font-bold text-slate-800">Trzy</p>
+                    </button>
+                    <button onclick="speak('Cztery')" class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-left hover:border-red-400 transition">
+                        <span class="text-xs font-bold text-red-600">4</span>
+                        <p class="font-bold text-slate-800">Cztery</p>
+                    </button>
+                    <button onclick="speak('Pięć')" class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-left hover:border-red-400 transition">
+                        <span class="text-xs font-bold text-red-600">5</span>
+                        <p class="font-bold text-slate-800">Pięć</p>
+                    </button>
+                    <button onclick="speak('Sześć')" class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-left hover:border-red-400 transition">
+                        <span class="text-xs font-bold text-red-600">6</span>
+                        <p class="font-bold text-slate-800">Sześć</p>
+                    </button>
+                    <button onclick="speak('Siedem')" class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-left hover:border-red-400 transition">
+                        <span class="text-xs font-bold text-red-600">7</span>
+                        <p class="font-bold text-slate-800">Siedem</p>
+                    </button>
+                    <button onclick="speak('Osiem')" class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-left hover:border-red-400 transition">
+                        <span class="text-xs font-bold text-red-600">8</span>
+                        <p class="font-bold text-slate-800">Osiem</p>
+                    </button>
+                    <button onclick="speak('Dziewięć')" class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-left hover:border-red-400 transition">
+                        <span class="text-xs font-bold text-red-600">9</span>
+                        <p class="font-bold text-slate-800">Dziewięć</p>
+                    </button>
+                    <button onclick="speak('Dziesięć')" class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-left hover:border-red-400 transition">
+                        <span class="text-xs font-bold text-red-600">10</span>
+                        <p class="font-bold text-slate-800">Dziesięć</p>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: VOCABULARY & COURTESY -->
+        <section id="vocabulary" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2">3. Приветствия, прощания и фразы вежливости</h2>
+                <p class="text-slate-600 mb-6">В польском языке важно различать официальный стиль (Pan/Pani) и неофициальный (на «ты»):</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Formal vs Informal Greetings -->
+                    <div class="p-5 bg-slate-50 border border-slate-200 rounded-2xl">
+                        <h3 class="font-bold text-lg text-slate-900 mb-3 flex items-center">
+                            <i class="fa-solid fa-handshake text-red-600 mr-2"></i> Приветствие (Powitania)
+                        </h3>
+                        <div class="space-y-2">
+                            <div class="p-3 bg-white rounded-xl border border-slate-200 flex justify-between items-center">
+                                <div>
+                                    <p class="font-bold text-slate-800">Dzień dobry!</p>
+                                    <p class="text-xs text-slate-500">Добрый день! (Официально, днём)</p>
+                                </div>
+                                <button onclick="speak('Dzień dobry')" class="text-red-600 hover:text-red-800"><i class="fa-solid fa-volume-high"></i></button>
+                            </div>
+                            <div class="p-3 bg-white rounded-xl border border-slate-200 flex justify-between items-center">
+                                <div>
+                                    <p class="font-bold text-slate-800">Dobry wieczór!</p>
+                                    <p class="text-xs text-slate-500">Добрый вечер! (Официально, вечером)</p>
+                                </div>
+                                <button onclick="speak('Dobry wieczór')" class="text-red-600 hover:text-red-800"><i class="fa-solid fa-volume-high"></i></button>
+                            </div>
+                            <div class="p-3 bg-white rounded-xl border border-slate-200 flex justify-between items-center">
+                                <div>
+                                    <p class="font-bold text-slate-800">Cześć! / Siema!</p>
+                                    <p class="text-xs text-slate-500">Привет! (Неофициально, друзьям)</p>
+                                </div>
+                                <button onclick="speak('Cześć! Siema!')" class="text-red-600 hover:text-red-800"><i class="fa-solid fa-volume-high"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Farewells -->
+                    <div class="p-5 bg-slate-50 border border-slate-200 rounded-2xl">
+                        <h3 class="font-bold text-lg text-slate-900 mb-3 flex items-center">
+                            <i class="fa-solid fa-door-open text-red-600 mr-2"></i> Прощание (Pożegnania)
+                        </h3>
+                        <div class="space-y-2">
+                            <div class="p-3 bg-white rounded-xl border border-slate-200 flex justify-between items-center">
+                                <div>
+                                    <p class="font-bold text-slate-800">Do widzenia!</p>
+                                    <p class="text-xs text-slate-500">До свидания! (Официально)</p>
+                                </div>
+                                <button onclick="speak('Do widzenia')" class="text-red-600 hover:text-red-800"><i class="fa-solid fa-volume-high"></i></button>
+                            </div>
+                            <div class="p-3 bg-white rounded-xl border border-slate-200 flex justify-between items-center">
+                                <div>
+                                    <p class="font-bold text-slate-800">Do zobaczenia!</p>
+                                    <p class="text-xs text-slate-500">До встречи!</p>
+                                </div>
+                                <button onclick="speak('Do zobaczenia')" class="text-red-600 hover:text-red-800"><i class="fa-solid fa-volume-high"></i></button>
+                            </div>
+                            <div class="p-3 bg-white rounded-xl border border-slate-200 flex justify-between items-center">
+                                <div>
+                                    <p class="font-bold text-slate-800">Pa! / Do jutra!</p>
+                                    <p class="text-xs text-slate-500">Пока! / До завтра!</p>
+                                </div>
+                                <button onclick="speak('Pa! Do jutra!')" class="text-red-600 hover:text-red-800"><i class="fa-solid fa-volume-high"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rescue & Etiquette Phrases -->
+                <div class="mt-6">
+                    <h3 class="font-bold text-lg text-slate-900 mb-3">Слова вежливости и «спасатели» на уроке</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex justify-between items-center">
+                            <div>
+                                <p class="font-bold text-slate-800">Proszę</p>
+                                <p class="text-xs text-slate-500">Пожалуйста / Прошу</p>
+                            </div>
+                            <button onclick="speak('Proszę')" class="text-red-600"><i class="fa-solid fa-volume-high"></i></button>
+                        </div>
+                        <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex justify-between items-center">
+                            <div>
+                                <p class="font-bold text-slate-800">Dziękuję bardzo!</p>
+                                <p class="text-xs text-slate-500">Большое спасибо!</p>
+                            </div>
+                            <button onclick="speak('Dziękuję bardzo')" class="text-red-600"><i class="fa-solid fa-volume-high"></i></button>
+                        </div>
+                        <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex justify-between items-center">
+                            <div>
+                                <p class="font-bold text-slate-800">Przepraszam</p>
+                                <p class="text-xs text-slate-500">Извините / Простите</p>
+                            </div>
+                            <button onclick="speak('Przepraszam')" class="text-red-600"><i class="fa-solid fa-volume-high"></i></button>
+                        </div>
+                        <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex justify-between items-center">
+                            <div>
+                                <p class="font-bold text-slate-800">Nie rozumiem.</p>
+                                <p class="text-xs text-slate-500">Я не понимаю.</p>
+                            </div>
+                            <button onclick="speak('Nie rozumiem')" class="text-red-600"><i class="fa-solid fa-volume-high"></i></button>
+                        </div>
+                        <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex justify-between items-center">
+                            <div>
+                                <p class="font-bold text-slate-800">Proszę powtórzyć.</p>
+                                <p class="text-slate-500 text-xs">Повторите, пожалуйста.</p>
+                            </div>
+                            <button onclick="speak('Proszę powtórzyć')" class="text-red-600"><i class="fa-solid fa-volume-high"></i></button>
+                        </div>
+                        <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl flex justify-between items-center">
+                            <div>
+                                <p class="font-bold text-slate-800">Co to znaczy?</p>
+                                <p class="text-slate-500 text-xs">Что это значит?</p>
+                            </div>
+                            <button onclick="speak('Co to znaczy?')" class="text-red-600"><i class="fa-solid fa-volume-high"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: GRAMMAR -->
+        <section id="grammar" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2">4. Грамматическая основа первого урока</h2>
+                <p class="text-slate-600 mb-6">Чтобы составить предложение, нам нужны главные глаголы `быть` и способы назвать себя:</p>
+
+                <!-- Verb BYĆ conjugation -->
+                <div class="bg-slate-50 p-5 rounded-2xl border border-slate-200 mb-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold text-red-600">Глагол BYĆ (быть) — Спряжение в настоящем времени</h3>
+                        <button onclick="speak('Ja jestem, ty jesteś, on jest, ona jest, my jesteśmy, wy jesteście, oni są')" class="px-3 py-1 bg-red-600 text-white rounded-lg text-sm hover:bg-red-700">
+                            <i class="fa-solid fa-volume-high mr-1"></i> Озвучить все формы
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="bg-white p-4 rounded-xl border border-slate-200">
+                            <p class="font-bold text-slate-500 text-xs uppercase mb-2">Единственное число (Liczba pojedyncza)</p>
+                            <ul class="space-y-2 text-sm">
+                                <li class="flex justify-between"><span><strong class="text-slate-900">Ja</strong> jestem</span> <span class="text-slate-500">(Я есть)</span></li>
+                                <li class="flex justify-between"><span><strong class="text-slate-900">Ty</strong> jesteś</span> <span class="text-slate-500">(Ты есть)</span></li>
+                                <li class="flex justify-between"><span><strong class="text-slate-900">On / Ona / Ono</strong> jest</span> <span class="text-slate-500">(Он / Она / Оно есть)</span></li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-white p-4 rounded-xl border border-slate-200">
+                            <p class="font-bold text-slate-500 text-xs uppercase mb-2">Множественное число (Liczba mnoga)</p>
+                            <ul class="space-y-2 text-sm">
+                                <li class="flex justify-between"><span><strong class="text-slate-900">My</strong> jesteśmy</span> <span class="text-slate-500">(Мы есть)</span></li>
+                                <li class="flex justify-between"><span><strong class="text-slate-900">Wy</strong> jesteście</span> <span class="text-slate-500">(Вы есть)</span></li>
+                                <li class="flex justify-between"><span><strong class="text-slate-900">Oni / One</strong> są</span> <span class="text-slate-500">(Они есть)</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-3">* Обратите внимание: в польском языке местоимения (Ja, Ty) часто **опускают**, так как форма глагола уже указывает на лицо (*Jestem z Polski* instead of *Ja jestem z Polski*).</p>
+                </div>
+
+                <!-- 3 Ways to Introduce Yourself -->
+                <div class="p-5 bg-red-50 border border-red-200 rounded-2xl">
+                    <h3 class="text-lg font-bold text-red-900 mb-3">Как представить себя (3 разных способа):</h3>
+                    <div class="space-y-3">
+                        <div class="p-3 bg-white rounded-xl border border-red-100">
+                            <p class="font-bold text-slate-900">1. Mam na imię [Имя]</p>
+                            <p class="text-xs text-slate-600">Буквально: «У меня на имя...» (Используется для указания **только имени**). Пример: <em class="text-red-600 font-semibold">Mam na imię Anna.</em></p>
+                        </div>
+                        <div class="p-3 bg-white rounded-xl border border-red-100">
+                            <p class="font-bold text-slate-900">2. Nazywam się [Имя + Фамилия]</p>
+                            <p class="text-xs text-slate-600">Буквально: «Меня зовут...» (Используется официально, обычно **Имя + Фамилия**). Пример: <em class="text-red-600 font-semibold">Nazywam się Jan Kowalski.</em></p>
+                        </div>
+                        <div class="p-3 bg-white rounded-xl border border-red-100">
+                            <p class="font-bold text-slate-900">3. Jestem [Имя / Профессия / Национальность]</p>
+                            <p class="text-xs text-slate-600">Буквально: «Я есть...». Пример: <em class="text-red-600 font-semibold">Jestem Alex. Jestem studentem. Jestem z Ukrainy.</em></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: DIALOGUES -->
+        <section id="dialogue" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-6 gap-4 border-b border-slate-100 pb-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-900">5. 4 Разговорных диалога по ролям</h2>
+                        <p class="text-slate-600">Проработайте ситуации в паре с преподавателем:</p>
+                    </div>
+                    <button onclick="toggleTranslation()" id="trans-btn" class="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-sm font-semibold transition self-start sm:self-auto">
+                        Показать / Скрыть перевод
+                    </button>
+                </div>
+
+                <!-- Grid of 4 Dialogue Scenarios -->
+                <div class="space-y-8">
+
+                    <!-- Scenario 1 -->
+                    <div class="p-5 border border-slate-200 rounded-2xl bg-slate-50">
+                        <span class="inline-block bg-red-100 text-red-800 text-xs font-bold px-3 py-1 rounded-full mb-3">Сценарий 1: Неофициальное знакомство на вечеринке</span>
+                        <div class="space-y-3">
+                            <div class="flex items-start space-x-3">
+                                <span class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-sm">M</span>
+                                <div class="bg-white p-3 rounded-xl border border-slate-200 w-full">
+                                    <p class="font-bold text-slate-800">Marek: Cześć! Jestem Marek. Jak masz na imię?</p>
+                                    <p class="translation text-slate-500 text-xs hidden mt-1">Привет! Я Марек. Как тебя зовут?</p>
+                                </div>
+                                <button onclick="speak('Cześć! Jestem Marek. Jak masz na imię?')" class="text-red-600 p-2"><i class="fa-solid fa-volume-high"></i></button>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <span class="w-8 h-8 rounded-full bg-slate-700 text-white font-bold flex items-center justify-center flex-shrink-0 text-sm">O</span>
+                                <div class="bg-white p-3 rounded-xl border border-slate-200 w-full">
+                                    <p class="font-bold text-slate-800">Olga: Cześć Marek! Mam na imię Olga. Miło mi!</p>
+                                    <p class="translation text-slate-500 text-xs hidden mt-1">Привет, Марек! Меня зовут Ольга. Приятно познакомиться!</p>
+                                </div>
+                                <button onclick="speak('Cześć Marek! Mam na imię Olga. Miło mi!')" class="text-red-600 p-2"><i class="fa-solid fa-volume-high"></i></button>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <span class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-sm">M</span>
+                                <div class="bg-white p-3 rounded-xl border border-slate-200 w-full">
+                                    <p class="font-bold text-slate-800">Marek: Mnie również! Skąd jesteś, Olga?</p>
+                                    <p class="translation text-slate-500 text-xs hidden mt-1">Мне тоже! Откуда ты, Ольга?</p>
+                                </div>
+                                <button onclick="speak('Mnie również! Skąd jesteś, Olga?')" class="text-red-600 p-2"><i class="fa-solid fa-volume-high"></i></button>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <span class="w-8 h-8 rounded-full bg-slate-700 text-white font-bold flex items-center justify-center flex-shrink-0 text-sm">O</span>
+                                <div class="bg-white p-3 rounded-xl border border-slate-200 w-full">
+                                    <p class="font-bold text-slate-800">Olga: Jestem z Ukrainy, a ty?</p>
+                                    <p class="translation text-slate-500 text-xs hidden mt-1">Я из Украины, а ты?</p>
+                                </div>
+                                <button onclick="speak('Jestem z Ukrainy, a ty?')" class="text-red-600 p-2"><i class="fa-solid fa-volume-high"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Scenario 2 -->
+                    <div class="p-5 border border-slate-200 rounded-2xl bg-slate-50">
+                        <span class="inline-block bg-slate-800 text-white text-xs font-bold px-3 py-1 rounded-full mb-3">Сценарий 2: Официальное знакомство в офисе (Pan / Pani)</span>
+                        <div class="space-y-3">
+                            <div class="flex items-start space-x-3">
+                                <span class="w-8 h-8 rounded-full bg-slate-800 text-white font-bold flex items-center justify-center flex-shrink-0 text-sm">P</span>
+                                <div class="bg-white p-3 rounded-xl border border-slate-200 w-full">
+                                    <p class="font-bold text-slate-800">Pan Nowak: Dzień dobry! Nazywam się Adam Nowak.</p>
+                                    <p class="translation text-slate-500 text-xs hidden mt-1">Добрый день! Меня зовут Адам Новак.</p>
+                                </div>
+                                <button onclick="speak('Dzień dobry! Nazywam się Adam Nowak.')" class="text-red-600 p-2"><i class="fa-solid fa-volume-high"></i></button>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <span class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-sm">P</span>
+                                <div class="bg-white p-3 rounded-xl border border-slate-200 w-full">
+                                    <p class="font-bold text-slate-800">Pani Kowalska: Dzień dobry Panu. Nazywam się Ewa Kowalska. Bardzo miło mi Pana poznać.</p>
+                                    <p class="translation text-slate-500 text-xs hidden mt-1">Добрый день! Меня зовут Ева Ковальска. Очень приятно с Вами познакомиться.</p>
+                                </div>
+                                <button onclick="speak('Dzień dobry Panu. Nazywam się Ewa Kowalska. Bardzo miło mi Pana poznać.')" class="text-red-600 p-2"><i class="fa-solid fa-volume-high"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Scenario 3 -->
+                    <div class="p-5 border border-slate-200 rounded-2xl bg-slate-50">
+                        <span class="inline-block bg-red-100 text-red-800 text-xs font-bold px-3 py-1 rounded-full mb-3">Сценарий 3: Разговор о языках</span>
+                        <div class="space-y-3">
+                            <div class="flex items-start space-x-3">
+                                <span class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-sm">A</span>
+                                <div class="bg-white p-3 rounded-xl border border-slate-200 w-full">
+                                    <p class="font-bold text-slate-800">Ania: Czy mówisz po polsku?</p>
+                                    <p class="translation text-slate-500 text-xs hidden mt-1">Ты говоришь по-польски?</p>
+                                </div>
+                                <button onclick="speak('Czy mówisz po polsku?')" class="text-red-600 p-2"><i class="fa-solid fa-volume-high"></i></button>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <span class="w-8 h-8 rounded-full bg-slate-700 text-white font-bold flex items-center justify-center flex-shrink-0 text-sm">T</span>
+                                <div class="bg-white p-3 rounded-xl border border-slate-200 w-full">
+                                    <p class="font-bold text-slate-800">Tom: Tak, mówię trochę po polsku i po angielsku. A ty?</p>
+                                    <p class="translation text-slate-500 text-xs hidden mt-1">Да, я говорю немного по-польски и по-английски. А ты?</p>
+                                </div>
+                                <button onclick="speak('Tak, mówię trochę po polsku i po angielsku. A ty?')" class="text-red-600 p-2"><i class="fa-solid fa-volume-high"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Scenario 4 -->
+                    <div class="p-5 border border-slate-200 rounded-2xl bg-slate-50">
+                        <span class="inline-block bg-slate-800 text-white text-xs font-bold px-3 py-1 rounded-full mb-3">Сценарий 4: Обмен номерами телефонов</span>
+                        <div class="space-y-3">
+                            <div class="flex items-start space-x-3">
+                                <span class="w-8 h-8 rounded-full bg-red-600 text-white font-bold flex items-center justify-center flex-shrink-0 text-sm">K</span>
+                                <div class="bg-white p-3 rounded-xl border border-slate-200 w-full">
+                                    <p class="font-bold text-slate-800">Kasia: Jaki masz numer telefonu?</p>
+                                    <p class="translation text-slate-500 text-xs hidden mt-1">Какой у тебя номер телефона?</p>
+                                </div>
+                                <button onclick="speak('Jaki masz numer telefonu?')" class="text-red-600 p-2"><i class="fa-solid fa-volume-high"></i></button>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <span class="w-8 h-8 rounded-full bg-slate-700 text-white font-bold flex items-center justify-center flex-shrink-0 text-sm">P</span>
+                                <div class="bg-white p-3 rounded-xl border border-slate-200 w-full">
+                                    <p class="font-bold text-slate-800">Piotr: Mój numer to: pięć, osiem, trzy, jeden, zero, cztery.</p>
+                                    <p class="translation text-slate-500 text-xs hidden mt-1">Мой номер: 5 8 3 1 0 4.</p>
+                                </div>
+                                <button onclick="speak('Mój numer to pięć osiem trzy jeden zero cztery')" class="text-red-600 p-2"><i class="fa-solid fa-volume-high"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 6: SPEAKING CONSTRUCTOR & ROLE-PLAY CARDS -->
+        <section id="practice" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2">6. Конструктор самопрезентации и Ролевые карточки</h2>
+                <p class="text-slate-600 mb-6">Сконструируйте ваш развернутый рассказ о себе для первого знакомства:</p>
+
+                <!-- Constructor inputs -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                        <label class="block font-bold text-slate-800 text-sm mb-1">1. Имя (Mam na imię...):</label>
+                        <input type="text" id="user-name" oninput="updateFullProfile()" placeholder="Например: Anna" class="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-red-500">
+                    </div>
+
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                        <label class="block font-bold text-slate-800 text-sm mb-1">2. Фамилия (Nazywam się...):</label>
+                        <input type="text" id="user-surname" oninput="updateFullProfile()" placeholder="Например: Kowalska" class="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-red-500">
+                    </div>
+
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                        <label class="block font-bold text-slate-800 text-sm mb-1">3. Страна (Jestem z...):</label>
+                        <select id="user-country" onchange="updateFullProfile()" class="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-red-500 bg-white">
+                            <option value="z Ukrainy">z Ukrainy (из Украины)</option>
+                            <option value="z Polski">z Polski (из Польши)</option>
+                            <option value="z Niemiec">z Niemiec (из Германии)</option>
+                            <option value="z Hiszpanii">z Hiszpanii (из Испании)</option>
+                        </select>
+                    </div>
+
+                    <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                        <label class="block font-bold text-slate-800 text-sm mb-1">4. Языки (Mówię po...):</label>
+                        <select id="user-lang" onchange="updateFullProfile()" class="w-full p-2.5 border rounded-lg focus:ring-2 focus:ring-red-500 bg-white">
+                            <option value="trochę po polsku i po angielsku">trochę po polsku i po angielsku</option>
+                            <option value="po ukraińsku i po angielsku">po ukraińsku i po angielsku</option>
+                            <option value="po hiszpańsku i trochę po polsku">po hiszpańsku i trochę po polsku</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Result Card -->
+                <div class="p-6 bg-red-600 text-white rounded-2xl shadow-md mb-8">
+                    <h3 class="text-sm uppercase font-bold opacity-80 mb-2">Ваш готовый монолог о себе на польском:</h3>
+                    <p id="full-profile-output" class="text-xl font-bold leading-relaxed mb-4">
+                        "Cześć! Mam na imię Anna. Nazywam się Kowalska. Jestem z Ukrainy. Mówię trochę po polsku i po angielsku. Bardzo miło mi Was poznać!"
+                    </p>
+                    <button onclick="speakFullProfile()" class="px-5 py-2.5 bg-white text-red-600 rounded-xl font-bold hover:bg-red-50 transition flex items-center space-x-2">
+                        <i class="fa-solid fa-volume-high"></i>
+                        <span>Прослушать весь монолог</span>
+                    </button>
+                </div>
+
+                <!-- Interactive Role Play Prompts for Teacher/Student -->
+                <h3 class="text-xl font-bold text-slate-900 mb-4">Задания для ролевой игры на уроке (Role-play):</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="p-4 border border-slate-200 rounded-xl bg-slate-50 hover:border-red-300 transition">
+                        <div class="w-8 h-8 rounded-full bg-red-100 text-red-600 font-bold flex items-center justify-center mb-3">1</div>
+                        <h4 class="font-bold text-slate-900 mb-1">Ситуация в кофейне</h4>
+                        <p class="text-xs text-slate-600">Поздоровайтесь с бариста, скажите «Dzień dobry», проговорите «Poproszę kawę» и попрощайтесь.</p>
+                    </div>
+
+                    <div class="p-4 border border-slate-200 rounded-xl bg-slate-50 hover:border-red-300 transition">
+                        <div class="w-8 h-8 rounded-full bg-red-100 text-red-600 font-bold flex items-center justify-center mb-3">2</div>
+                        <h4 class="font-bold text-slate-900 mb-1">Официальное интервью</h4>
+                        <p class="text-xs text-slate-600">Используйте формулу «Nazywam się...», скажите из какой вы страны и на каких языках говорите.</p>
+                    </div>
+
+                    <div class="p-4 border border-slate-200 rounded-xl bg-slate-50 hover:border-red-300 transition">
+                        <div class="w-8 h-8 rounded-full bg-red-100 text-red-600 font-bold flex items-center justify-center mb-3">3</div>
+                        <h4 class="font-bold text-slate-900 mb-1">Диалог с преподавателем</h4>
+                        <p class="text-xs text-slate-600">Задайте учительнице 3 вопроса: «Jak masz na imię?», «Skąd jesteś?», «Jak się masz?».</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 7: QUIZ & GRAMMAR EXERCISES -->
+        <section id="quiz" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <h2 class="text-2xl font-bold text-slate-900 mb-2">7. Тренажер и интерактивный тест</h2>
+                <p class="text-slate-600 mb-6">Проверьте знания грамматики и фразеологии первого урока:</p>
+
+                <!-- Grammar Fill-in-blanks -->
+                <div class="p-5 bg-slate-50 border border-slate-200 rounded-2xl mb-8">
+                    <h3 class="font-bold text-lg text-slate-900 mb-4">Упражнение 1: Вставьте правильную форму глагола BYĆ</h3>
+
+                    <div class="space-y-3">
+                        <div class="flex items-center space-x-2 text-sm sm:text-base">
+                            <span>1. Ja</span>
+                            <input type="text" id="ex1" placeholder="???" class="w-24 p-1.5 border rounded text-center font-bold text-red-600">
+                            <span>z Polski. (jestem)</span>
+                            <button onclick="checkEx('ex1', 'jestem')" class="px-3 py-1 bg-slate-800 text-white rounded text-xs">Проверить</button>
+                            <span id="ex1-res" class="text-xs font-bold"></span>
+                        </div>
+
+                        <div class="flex items-center space-x-2 text-sm sm:text-base">
+                            <span>2. Skąd ty</span>
+                            <input type="text" id="ex2" placeholder="???" class="w-24 p-1.5 border rounded text-center font-bold text-red-600">
+                            <span>? (jesteś)</span>
+                            <button onclick="checkEx('ex2', 'jesteś')" class="px-3 py-1 bg-slate-800 text-white rounded text-xs">Проверить</button>
+                            <span id="ex2-res" class="text-xs font-bold"></span>
+                        </div>
+
+                        <div class="flex items-center space-x-2 text-sm sm:text-base">
+                            <span>3. Ona</span>
+                            <input type="text" id="ex3" placeholder="???" class="w-24 p-1.5 border rounded text-center font-bold text-red-600">
+                            <span>studentką. (jest)</span>
+                            <button onclick="checkEx('ex3', 'jest')" class="px-3 py-1 bg-slate-800 text-white rounded text-xs">Проверить</button>
+                            <span id="ex3-res" class="text-xs font-bold"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Multiple Choice Quiz -->
+                <h3 class="font-bold text-lg text-slate-900 mb-4">Упражнение 2: Выберите правильный вариант</h3>
+
+                <div class="space-y-6">
+                    <div class="p-5 border border-slate-200 rounded-xl bg-slate-50">
+                        <p class="font-bold text-slate-800 mb-3">1. Как спросить «Откуда ты?» по-польски?</p>
+                        <div class="space-y-2">
+                            <button onclick="checkQuiz(this, false)" class="w-full text-left p-3 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 transition">A) Jak masz na imię?</button>
+                            <button onclick="checkQuiz(this, true)" class="w-full text-left p-3 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 transition">B) Skąd jesteś?</button>
+                            <button onclick="checkQuiz(this, false)" class="w-full text-left p-3 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 transition">C) Co to znaczy?</button>
+                        </div>
+                    </div>
+
+                    <div class="p-5 border border-slate-200 rounded-xl bg-slate-50">
+                        <p class="font-bold text-slate-800 mb-3">2. Какая фраза используется при официальном прощании?</p>
+                        <div class="space-y-2">
+                            <button onclick="checkQuiz(this, false)" class="w-full text-left p-3 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 transition">A) Cześć!</button>
+                            <button onclick="checkQuiz(this, true)" class="w-full text-left p-3 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 transition">B) Do widzenia!</button>
+                            <button onclick="checkQuiz(this, false)" class="w-full text-left p-3 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 transition">C) Siema!</button>
+                        </div>
+                    </div>
+
+                    <div class="p-5 border border-slate-200 rounded-xl bg-slate-50">
+                        <p class="font-bold text-slate-800 mb-3">3. Как пишется число 7 по-польски?</p>
+                        <div class="space-y-2">
+                            <button onclick="checkQuiz(this, false)" class="w-full text-left p-3 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 transition">A) Sześć</button>
+                            <button onclick="checkQuiz(this, true)" class="w-full text-left p-3 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 transition">B) Siedem</button>
+                            <button onclick="checkQuiz(this, false)" class="w-full text-left p-3 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 transition">C) Osiem</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 8: READING & TRANSLATION PRACTICE (30 SENTENCES) -->
+        <section id="reading" class="tab-content hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                <div class="flex flex-col sm:flex-row justify-between sm:items-center mb-6 gap-4 border-b border-slate-100 pb-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-900">8. Тренажер чтения и перевода (30 легких предложений)</h2>
+                        <p class="text-slate-600 text-sm">Простой связный рассказ про Марека и его семью для начального чтения A0–A1.</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="toggleReadingTranslations()" id="toggle-read-trans-btn" class="px-3 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-xs font-bold transition">
+                            <i class="fa-solid fa-eye mr-1"></i> Показать / скрыть весь перевод
+                        </button>
+                        <button onclick="speakAllReadingText()" class="px-3 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs font-bold transition">
+                            <i class="fa-solid fa-play mr-1"></i> Озвучить текст целиком
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="reading-sentences-container">
+                    <!-- Sentence 1 -->
+                    <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-start justify-between gap-3 hover:border-amber-400 transition">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-full">1</span>
+                                <p class="font-bold text-slate-800 text-sm">Cześć! Mam na imię Marek.</p>
+                            </div>
+                            <p class="read-trans text-slate-500 text-xs mt-1 hidden">Привет! Меня зовут Марек.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <button onclick="speak('Cześć! Mam na imię Marek.')" class="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
+                            <button onclick="markSentenceRead(this)" class="p-1.5 text-slate-400 hover:text-emerald-600"><i class="fa-regular fa-circle-check"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Sentence 2 -->
+                    <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-start justify-between gap-3 hover:border-amber-400 transition">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-full">2</span>
+                                <p class="font-bold text-slate-800 text-sm">Jestem z Polski i mieszkam w Warszawie.</p>
+                            </div>
+                            <p class="read-trans text-slate-500 text-xs mt-1 hidden">Я из Польши и живу в Варшаве.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <button onclick="speak('Jestem z Polski i mieszkam w Warszawie.')" class="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
+                            <button onclick="markSentenceRead(this)" class="p-1.5 text-slate-400 hover:text-emerald-600"><i class="fa-regular fa-circle-check"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Sentence 3 -->
+                    <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-start justify-between gap-3 hover:border-amber-400 transition">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-full">3</span>
+                                <p class="font-bold text-slate-800 text-sm">To jest moja rodzina.</p>
+                            </div>
+                            <p class="read-trans text-slate-500 text-xs mt-1 hidden">Это моя семья.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <button onclick="speak('To jest moja rodzina.')" class="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
+                            <button onclick="markSentenceRead(this)" class="p-1.5 text-slate-400 hover:text-emerald-600"><i class="fa-regular fa-circle-check"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Sentence 4 -->
+                    <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-start justify-between gap-3 hover:border-amber-400 transition">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-full">4</span>
+                                <p class="font-bold text-slate-800 text-sm">Mam żonę i syna.</p>
+                            </div>
+                            <p class="read-trans text-slate-500 text-xs mt-1 hidden">У меня есть жена и сын.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <button onclick="speak('Mam żonę i syna.')" class="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
+                            <button onclick="markSentenceRead(this)" class="p-1.5 text-slate-400 hover:text-emerald-600"><i class="fa-regular fa-circle-check"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Sentence 5 -->
+                    <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-start justify-between gap-3 hover:border-amber-400 transition">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-full">5</span>
+                                <p class="font-bold text-slate-800 text-sm">Moja żona ma na imię Ewa.</p>
+                            </div>
+                            <p class="read-trans text-slate-500 text-xs mt-1 hidden">Мою жену зовут Ева.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <button onclick="speak('Moja żona ma na imię Ewa.')" class="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
+                            <button onclick="markSentenceRead(this)" class="p-1.5 text-slate-400 hover:text-emerald-600"><i class="fa-regular fa-circle-check"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Sentence 6 -->
+                    <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-start justify-between gap-3 hover:border-amber-400 transition">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-full">6</span>
+                                <p class="font-bold text-slate-800 text-sm">Ewa jest lekarką.</p>
+                            </div>
+                            <p class="read-trans text-slate-500 text-xs mt-1 hidden">Ева — врач.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <button onclick="speak('Ewa jest lekarką.')" class="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
+                            <button onclick="markSentenceRead(this)" class="p-1.5 text-slate-400 hover:text-emerald-600"><i class="fa-regular fa-circle-check"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Sentence 7 -->
+                    <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-start justify-between gap-3 hover:border-amber-400 transition">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-full">7</span>
+                                <p class="font-bold text-slate-800 text-sm">Ona bardzo lubi swoją pracę.</p>
+                            </div>
+                            <p class="read-trans text-slate-500 text-xs mt-1 hidden">Она очень любит свою работу.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <button onclick="speak('Ona bardzo lubi swoją pracę.')" class="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
+                            <button onclick="markSentenceRead(this)" class="p-1.5 text-slate-400 hover:text-emerald-600"><i class="fa-regular fa-circle-check"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Sentence 8 -->
+                    <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-start justify-between gap-3 hover:border-amber-400 transition">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-full">8</span>
+                                <p class="font-bold text-slate-800 text-sm">Nasz syn ma na imię Adam.</p>
+                            </div>
+                            <p class="read-trans text-slate-500 text-xs mt-1 hidden">Нашего сына зовут Адам.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <button onclick="speak('Nasz syn ma na imię Adam.')" class="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
+                            <button onclick="markSentenceRead(this)" class="p-1.5 text-slate-400 hover:text-emerald-600"><i class="fa-regular fa-circle-check"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Sentence 9 -->
+                    <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-start justify-between gap-3 hover:border-amber-400 transition">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-full">9</span>
+                                <p class="font-bold text-slate-800 text-sm">Adam jest studentem.</p>
+                            </div>
+                            <p class="read-trans text-slate-500 text-xs mt-1 hidden">Адам — студент.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <button onclick="speak('Adam jest studentem.')" class="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
+                            <button onclick="markSentenceRead(this)" class="p-1.5 text-slate-400 hover:text-emerald-600"><i class="fa-regular fa-circle-check"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Sentence 10 -->
+                    <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-start justify-between gap-3 hover:border-amber-400 transition">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-full">10</span>
+                                <p class="font-bold text-slate-800 text-sm">Adam mówi po polsku i po angielsku.</p>
+                            </div>
+                            <p class="read-trans text-slate-500 text-xs mt-1 hidden">Адам говорит по-польски и по-английски.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <button onclick="speak('Adam mówi po polsku i po angielsku.')" class="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
+                            <button onclick="markSentenceRead(this)" class="p-1.5 text-slate-400 hover:text-emerald-600"><i class="fa-regular fa-circle-check"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Sentence 11 -->
+                    <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-start justify-between gap-3 hover:border-amber-400 transition">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-full">11</span>
+                                <p class="font-bold text-slate-800 text-sm">Dzisiaj jest ładna, słoneczna pogoda.</p>
+                            </div>
+                            <p class="read-trans text-slate-500 text-xs mt-1 hidden">Сегодня красивая, солнечная погода.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <button onclick="speak('Dzisiaj jest ładna, słoneczna pogoda.')" class="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
+                            <button onclick="markSentenceRead(this)" class="p-1.5 text-slate-400 hover:text-emerald-600"><i class="fa-regular fa-circle-check"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Sentence 12 -->
+                    <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-start justify-between gap-3 hover:border-amber-400 transition">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-full">12</span>
+                                <p class="font-bold text-slate-800 text-sm">Rano piję dobrą kawę.</p>
+                            </div>
+                            <p class="read-trans text-slate-500 text-xs mt-1 hidden">Утром я пью хороший кофе.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <button onclick="speak('Rano piję dobrą kawę.')" class="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
+                            <button onclick="markSentenceRead(this)" class="p-1.5 text-slate-400 hover:text-emerald-600"><i class="fa-regular fa-circle-check"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Sentence 13 -->
+                    <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-start justify-between gap-3 hover:border-amber-400 transition">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-full">13</span>
+                                <p class="font-bold text-slate-800 text-sm">Moja żona pije herbatę z cytryną.</p>
+                            </div>
+                            <p class="read-trans text-slate-500 text-xs mt-1 hidden">Моя жена пьет чай с лимоном.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <button onclick="speak('Moja żona pije herbatę z cytryną.')" class="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
+                            <button onclick="markSentenceRead(this)" class="p-1.5 text-slate-400 hover:text-emerald-600"><i class="fa-regular fa-circle-check"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Sentence 14 -->
+                    <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-start justify-between gap-3 hover:border-amber-400 transition">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-full">14</span>
+                                <p class="font-bold text-slate-800 text-sm">Adam pije sok owocowy.</p>
+                            </div>
+                            <p class="read-trans text-slate-500 text-xs mt-1 hidden">Адам пьет фруктовый сок.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <button onclick="speak('Adam pije sok owocowy.')" class="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
+                            <button onclick="markSentenceRead(this)" class="p-1.5 text-slate-400 hover:text-emerald-600"><i class="fa-regular fa-circle-check"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Sentence 15 -->
+                    <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-start justify-between gap-3 hover:border-amber-400 transition">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-full">15</span>
+                                <p class="font-bold text-slate-800 text-sm">Lubimy wspólnie jeść śniadanie.</p>
+                            </div>
+                            <p class="read-trans text-slate-500 text-xs mt-1 hidden">Мы любим вместе есть завтрак.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <button onclick="speak('Lubimy wspólnie jeść śniadanie.')" class="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
+                            <button onclick="markSentenceRead(this)" class="p-1.5 text-slate-400 hover:text-emerald-600"><i class="fa-regular fa-circle-check"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Sentence 16 -->
+                    <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-start justify-between gap-3 hover:border-amber-400 transition">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-full">16</span>
+                                <p class="font-bold text-slate-800 text-sm">W pokoju jest duży stół i cztery krzesła.</p>
+                            </div>
+                            <p class="read-trans text-slate-500 text-xs mt-1 hidden">В комнате большой стол и четыре стула.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <button onclick="speak('W pokoju jest duży stół i cztery krzesła.')" class="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
+                            <button onclick="markSentenceRead(this)" class="p-1.5 text-slate-400 hover:text-emerald-600"><i class="fa-regular fa-circle-check"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Sentence 17 -->
+                    <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-start justify-between gap-3 hover:border-amber-400 transition">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-full">17</span>
+                                <p class="font-bold text-slate-800 text-sm">Na stole jest świeży chleb i ser.</p>
+                            </div>
+                            <p class="read-trans text-slate-500 text-xs mt-1 hidden">На столе свежий хлеб и сыр.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <button onclick="speak('Na stole jest świeży chleb i ser.')" class="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
+                            <button onclick="markSentenceRead(this)" class="p-1.5 text-slate-400 hover:text-emerald-600"><i class="fa-regular fa-circle-check"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Sentence 18 -->
+                    <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-start justify-between gap-3 hover:border-amber-400 transition">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-full">18</span>
+                                <p class="font-bold text-slate-800 text-sm">To jest nasz pies.</p>
+                            </div>
+                            <p class="read-trans text-slate-500 text-xs mt-1 hidden">Это наша собака.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <button onclick="speak('To jest nasz pies.')" class="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
+                            <button onclick="markSentenceRead(this)" class="p-1.5 text-slate-400 hover:text-emerald-600"><i class="fa-regular fa-circle-check"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Sentence 19 -->
+                    <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-start justify-between gap-3 hover:border-amber-400 transition">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-full">19</span>
+                                <p class="font-bold text-slate-800 text-sm">Pies nazywa się Reks.</p>
+                            </div>
+                            <p class="read-trans text-slate-500 text-xs mt-1 hidden">Собаку зовут Рекс.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <button onclick="speak('Pies nazywa się Reks.')" class="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
+                            <button onclick="markSentenceRead(this)" class="p-1.5 text-slate-400 hover:text-emerald-600"><i class="fa-regular fa-circle-check"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Sentence 20 -->
+                    <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-start justify-between gap-3 hover:border-amber-400 transition">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-full">20</span>
+                                <p class="font-bold text-slate-800 text-sm">Reks jest bardzo miły i wesoły.</p>
+                            </div>
+                            <p class="read-trans text-slate-500 text-xs mt-1 hidden">Рекс очень милый и веселый.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <button onclick="speak('Reks jest bardzo miły i wesoły.')" class="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
+                            <button onclick="markSentenceRead(this)" class="p-1.5 text-slate-400 hover:text-emerald-600"><i class="fa-regular fa-circle-check"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Sentence 21 -->
+                    <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-start justify-between gap-3 hover:border-amber-400 transition">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-full">21</span>
+                                <p class="font-bold text-slate-800 text-sm">Popołudniu idziemy na spacer do parku.</p>
+                            </div>
+                            <p class="read-trans text-slate-500 text-xs mt-1 hidden">Днем мы идем на прогулку в парк.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <button onclick="speak('Popołudniu idziemy na spacer do parku.')" class="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
+                            <button onclick="markSentenceRead(this)" class="p-1.5 text-slate-400 hover:text-emerald-600"><i class="fa-regular fa-circle-check"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Sentence 22 -->
+                    <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-start justify-between gap-3 hover:border-amber-400 transition">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-full">22</span>
+                                <p class="font-bold text-slate-800 text-sm">Park jest duży i piękny.</p>
+                            </div>
+                            <p class="read-trans text-slate-500 text-xs mt-1 hidden">Парк большой и красивый.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <button onclick="speak('Park jest duży i piękny.')" class="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
+                            <button onclick="markSentenceRead(this)" class="p-1.5 text-slate-400 hover:text-emerald-600"><i class="fa-regular fa-circle-check"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Sentence 23 -->
+                    <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-start justify-between gap-3 hover:border-amber-400 transition">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-full">23</span>
+                                <p class="font-bold text-slate-800 text-sm">Czy ty też lubisz spacery?</p>
+                            </div>
+                            <p class="read-trans text-slate-500 text-xs mt-1 hidden">Ты тоже любишь прогулки?</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <button onclick="speak('Czy ty też lubisz spacery?')" class="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
+                            <button onclick="markSentenceRead(this)" class="p-1.5 text-slate-400 hover:text-emerald-600"><i class="fa-regular fa-circle-check"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Sentence 24 -->
+                    <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-start justify-between gap-3 hover:border-amber-400 transition">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-full">24</span>
+                                <p class="font-bold text-slate-800 text-sm">Wieczorem oglądamy ciekawy film.</p>
+                            </div>
+                            <p class="read-trans text-slate-500 text-xs mt-1 hidden">Вечером мы смотрим интересный фильм.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <button onclick="speak('Wieczorem oglądamy ciekawy film.')" class="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
+                            <button onclick="markSentenceRead(this)" class="p-1.5 text-slate-400 hover:text-emerald-600"><i class="fa-regular fa-circle-check"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Sentence 25 -->
+                    <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-start justify-between gap-3 hover:border-amber-400 transition">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-full">25</span>
+                                <p class="font-bold text-slate-800 text-sm">Mamy też małego kota.</p>
+                            </div>
+                            <p class="read-trans text-slate-500 text-xs mt-1 hidden">У нас есть также маленькая кошка.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <button onclick="speak('Mamy też małego kota.')" class="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
+                            <button onclick="markSentenceRead(this)" class="p-1.5 text-slate-400 hover:text-emerald-600"><i class="fa-regular fa-circle-check"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Sentence 26 -->
+                    <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-start justify-between gap-3 hover:border-amber-400 transition">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-full">26</span>
+                                <p class="font-bold text-slate-800 text-sm">Kot śpi na kanapie.</p>
+                            </div>
+                            <p class="read-trans text-slate-500 text-xs mt-1 hidden">Кошка спит на диване.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <button onclick="speak('Kot śpi na kanapie.')" class="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
+                            <button onclick="markSentenceRead(this)" class="p-1.5 text-slate-400 hover:text-emerald-600"><i class="fa-regular fa-circle-check"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Sentence 27 -->
+                    <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-start justify-between gap-3 hover:border-amber-400 transition">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-full">27</span>
+                                <p class="font-bold text-slate-800 text-sm">Polska to piękny kraj.</p>
+                            </div>
+                            <p class="read-trans text-slate-500 text-xs mt-1 hidden">Польша — красивая страна.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <button onclick="speak('Polska to piękny kraj.')" class="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
+                            <button onclick="markSentenceRead(this)" class="p-1.5 text-slate-400 hover:text-emerald-600"><i class="fa-regular fa-circle-check"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Sentence 28 -->
+                    <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-start justify-between gap-3 hover:border-amber-400 transition">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-full">28</span>
+                                <p class="font-bold text-slate-800 text-sm">Język polski jest bardzo ciekawy.</p>
+                            </div>
+                            <p class="read-trans text-slate-500 text-xs mt-1 hidden">Польский язык очень интересный.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <button onclick="speak('Język polski jest bardzo ciekawy.')" class="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
+                            <button onclick="markSentenceRead(this)" class="p-1.5 text-slate-400 hover:text-emerald-600"><i class="fa-regular fa-circle-check"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Sentence 29 -->
+                    <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-start justify-between gap-3 hover:border-amber-400 transition">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-full">29</span>
+                                <p class="font-bold text-slate-800 text-sm">Uczę się polskiego codziennie.</p>
+                            </div>
+                            <p class="read-trans text-slate-500 text-xs mt-1 hidden">Я учу польский каждый день.</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <button onclick="speak('Uczę się polskiego codziennie.')" class="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
+                            <button onclick="markSentenceRead(this)" class="p-1.5 text-slate-400 hover:text-emerald-600"><i class="fa-regular fa-circle-check"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- Sentence 30 -->
+                    <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-start justify-between gap-3 hover:border-amber-400 transition">
+                        <div class="flex-grow">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-2 py-0.5 rounded-full">30</span>
+                                <p class="font-bold text-slate-800 text-sm">Dziękuję i do widzenia!</p>
+                            </div>
+                            <p class="read-trans text-slate-500 text-xs mt-1 hidden">Спасибо и до свидания!</p>
+                        </div>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <button onclick="speak('Dziękuję i do widzenia!')" class="p-1.5 text-amber-600 hover:bg-amber-100 rounded-lg"><i class="fa-solid fa-volume-high"></i></button>
+                            <button onclick="markSentenceRead(this)" class="p-1.5 text-slate-400 hover:text-emerald-600"><i class="fa-regular fa-circle-check"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500">
+        Учебная интерактивная платформа для уроков польского языка • Lekcja 1 (Расширенное издание)
+    </footer>
+
+    <script>
+        // Global XP System
+        let currentXP = 0;
+        function addXP(amount) {
+            currentXP += amount;
+            document.getElementById('xp-counter').innerText = currentXP;
+        }
+
+        // Toggle All Translations in Reading Tab
+        function toggleReadingTranslations() {
+            const translations = document.querySelectorAll('.read-trans');
+            translations.forEach(el => el.classList.toggle('hidden'));
+        }
+
+        // Mark individual sentence as read
+        function markSentenceRead(btn) {
+            if (!btn.classList.contains('text-emerald-600')) {
+                btn.className = "p-1.5 text-emerald-600 font-bold";
+                btn.innerHTML = '<i class="fa-solid fa-circle-check"></i>';
+                addXP(2);
+            }
+        }
+
+        // Speak all 30 sentences sequentially
+        function speakAllReadingText() {
+            const fullStory = "Cześć! Mam na imię Marek. Jestem z Polski i mieszkam w Warszawie. To jest moja rodzina. Mam żonę i syna. Moja żona ma na imię Ewa. Ewa jest lekarką. Ona bardzo lubi swoją pracę. Nasz syn ma na imię Adam. Adam jest studentem. Adam mówi po polsku i po angielsku. Dzisiaj jest ładna, słoneczna pogoda. Rano piję dobrą kawę. Moja żona pije herbatę z cytryną. Adam pije sok owocowy. Lubimy wspólnie jeść śniadanie. W pokoju jest duży stół i cztery krzesła. Na stole jest świeży chleb i ser. To jest nasz pies. Pies nazywa się Reks. Reks jest bardzo miły i wesoły. Popołudniu idziemy na spacer do parku. Park jest duży i piękny. Czy ty też lubisz spacery? Wieczorem oglądamy ciekawy film. Mamy też małego kota. Kot śpi na kanapie. Polska to piękny kraj. Język polski jest bardzo ciekawy. Uczę się polskiego codziennie. Dziękuję i do widzenia!";
+            speak(fullStory);
+        }
+
+        // Tab switching logic
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
+            document.getElementById(tabId).classList.remove('hidden');
+            document.getElementById('tab-' + tabId).classList.add('active');
+        }
+
+        // 3D Card Flip Handler
+        function flipCard(cardElement, speakText) {
+            cardElement.classList.toggle('flipped');
+            if (cardElement.classList.contains('flipped')) {
+                speak(speakText);
+                addXP(5);
+            }
+        }
+
+        // Text To Speech Logic
+        function speak(text) {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'pl-PL';
+                utterance.rate = 0.85;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        // --- PHONE KEYPAD GAME ---
+        const targetPhone = "583104";
+        let enteredPhone = "";
+
+        function playPhoneAudio() {
+            speak("Pięć, osiem, trzy, jeden, zero, cztery");
+        }
+
+        function pressDigit(digit) {
+            if (enteredPhone.length < 6) {
+                enteredPhone += digit;
+                updatePhoneDisplay();
+                speak(digit);
+            }
+        }
+
+        function clearDigit() {
+            enteredPhone = "";
+            updatePhoneDisplay();
+            document.getElementById('phone-feedback').innerText = "";
+        }
+
+        function updatePhoneDisplay() {
+            document.getElementById('phone-display').innerText = enteredPhone.padEnd(6, '_');
+        }
+
+        function checkPhone() {
+            const feedback = document.getElementById('phone-feedback');
+            if (enteredPhone === targetPhone) {
+                feedback.innerText = "✓ Правильно! Номер набран верно!";
+                feedback.className = "text-center font-bold text-xs text-emerald-600";
+                addXP(25);
+            } else {
+                feedback.innerText = "✗ Ошибка! Попробуйте послушать еще раз.";
+                feedback.className = "text-center font-bold text-xs text-rose-600";
+            }
+        }
+
+        // --- WORD ORDER PUZZLE GAME ---
+        const correctPuzzleSequence = ["Mam", "na", "imię", "Anna,", "jestem", "z", "Ukrainy."];
+        const initialWords = ["z", "Anna,", "na", "Ukrainy.", "Mam", "jestem", "imię"];
+        let selectedWords = [];
+
+        function initPuzzle() {
+            const wordsContainer = document.getElementById('puzzle-words');
+            if(!wordsContainer) return;
+            wordsContainer.innerHTML = '';
+            initialWords.forEach(word => {
+                const btn = document.createElement('button');
+                btn.className = "px-3 py-1.5 bg-slate-100 hover:bg-red-50 border border-slate-300 rounded-lg text-xs font-bold text-slate-800 transition";
+                btn.innerText = word;
+                btn.onclick = () => selectPuzzleWord(word, btn);
+                wordsContainer.appendChild(btn);
+            });
+        }
+
+        function selectPuzzleWord(word, btnElement) {
+            selectedWords.push(word);
+            btnElement.disabled = true;
+            btnElement.classList.add('opacity-40');
+
+            const slot = document.getElementById('puzzle-slot');
+            const placeholder = document.getElementById('puzzle-placeholder');
+            if(placeholder) placeholder.style.display = 'none';
+
+            const tile = document.createElement('span');
+            tile.className = "px-2.5 py-1 bg-red-600 text-white rounded-md text-xs font-bold animate-pulse";
+            tile.innerText = word;
+            slot.appendChild(tile);
+        }
+
+        function resetPuzzle() {
+            selectedWords = [];
+            const slot = document.getElementById('puzzle-slot');
+            slot.innerHTML = '<span class="text-xs text-slate-400 italic" id="puzzle-placeholder">Кликайте на слова ниже...</span>';
+            document.getElementById('puzzle-feedback').innerText = "";
+            initPuzzle();
+        }
+
+        function checkPuzzle() {
+            const feedback = document.getElementById('puzzle-feedback');
+            if (JSON.stringify(selectedWords) === JSON.stringify(correctPuzzleSequence)) {
+                feedback.innerText = "✓ Отлично! Предложение составлено верно!";
+                feedback.className = "text-center font-bold text-xs text-emerald-600";
+                speak("Mam na imię Anna, jestem z Ukrainy");
+                addXP(30);
+            } else {
+                feedback.innerText = "✗ Неправильный порядок слов. Нажмите Сбросить.";
+                feedback.className = "text-center font-bold text-xs text-rose-600";
+            }
+        }
+
+        // --- SIMULATED CHAT ROLEPLAY ---
+        const chatSteps = [
+            {
+                botMsg: "Dzień dobry! Cześć! Jak masz na imię?",
+                options: [
+                    { text: "Cześć! Mam na imię Anna.", nextStep: 1, xp: 10 },
+                    { text: "Dzień dobry! Nazywam się Anna.", nextStep: 1, xp: 10 }
+                ]
+            },
+            {
+                botMsg: "Bardzo miło mi Cię poznać! Skąd jesteś?",
+                options: [
+                    { text: "Jestem z Ukrainy. A Ty?", nextStep: 2, xp: 15 },
+                    { text: "Jestem z Polski.", nextStep: 2, xp: 10 }
+                ]
+            },
+            {
+                botMsg: "Ja jestem z Polski. Jak się masz dzisiaj?",
+                options: [
+                    { text: "Dziękuję, bardzo dobrze!", nextStep: 3, xp: 15 },
+                    { text: "Tak sobie, ale jest ok.", nextStep: 3, xp: 10 }
+                ]
+            },
+            {
+                botMsg: "Super! Do widzenia i miłego dnia!",
+                options: [
+                    { text: "Do widzenia! Pa!", nextStep: -1, xp: 20 }
+                ]
+            }
+        ];
+
+        function renderChatStep(stepIdx) {
+            const windowEl = document.getElementById('chat-window');
+            const optionsEl = document.getElementById('chat-options');
+            if(!windowEl || !optionsEl) return;
+
+            if (stepIdx === -1) {
+                optionsEl.innerHTML = '<div class="p-3 bg-emerald-100 text-emerald-800 rounded-xl text-center text-xs font-bold">🎉 Разговор успешно завершен! Вы получили за чат +55 XP!</div>';
+                return;
+            }
+
+            const step = chatSteps[stepIdx];
+
+            // Add Bot Message
+            const botBubble = document.createElement('div');
+            botBubble.className = "flex items-start space-x-2";
+            botBubble.innerHTML = `
+                <div class="w-7 h-7 rounded-full bg-red-600 text-white font-bold text-xs flex items-center justify-center flex-shrink-0">K</div>
+                <div class="bg-white border border-slate-200 p-3 rounded-2xl rounded-tl-none text-xs font-bold text-slate-800 shadow-sm max-w-xs">
+                    ${step.botMsg}
+                    <button onclick="speak('${step.botMsg}')" class="ml-2 text-red-600 hover:text-red-800"><i class="fa-solid fa-volume-high"></i></button>
+                </div>
+            `;
+            windowEl.appendChild(botBubble);
+            windowEl.scrollTop = windowEl.scrollHeight;
+
+            speak(step.botMsg);
+
+            // Render Options
+            optionsEl.innerHTML = '';
+            step.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left p-3 bg-slate-100 hover:bg-red-50 border border-slate-200 hover:border-red-300 rounded-xl text-xs font-bold text-slate-800 transition flex justify-between items-center";
+                btn.innerHTML = `<span>${opt.text}</span> <i class="fa-solid fa-paper-plane text-red-500"></i>`;
+                btn.onclick = () => {
+                    // Add User Message Bubble
+                    const userBubble = document.createElement('div');
+                    userBubble.className = "flex items-start space-x-2 flex-row-reverse space-x-reverse";
+                    userBubble.innerHTML = `
+                        <div class="w-7 h-7 rounded-full bg-slate-800 text-white font-bold text-xs flex items-center justify-center flex-shrink-0">Ty</div>
+                        <div class="bg-red-600 text-white p-3 rounded-2xl rounded-tr-none text-xs font-bold shadow-sm max-w-xs">
+                            ${opt.text}
+                        </div>
+                    `;
+                    windowEl.appendChild(userBubble);
+                    addXP(opt.xp);
+                    setTimeout(() => renderChatStep(opt.nextStep), 800);
+                };
+                optionsEl.appendChild(btn);
+            });
+        }
+
+        function restartChat() {
+            document.getElementById('chat-window').innerHTML = '';
+            renderChatStep(0);
+        }
+
+        // Init on load
+        window.onload = function() {
+            initPuzzle();
+            renderChatStep(0);
+        };
+
+        // Toggle Dialogue Translation
+        function toggleTranslation() {
+            const translations = document.querySelectorAll('.translation');
+            translations.forEach(el => el.classList.toggle('hidden'));
+        }
+
+        // Full Profile Builder
+        function updateFullProfile() {
+            const name = document.getElementById('user-name').value.trim() || 'Anna';
+            const surname = document.getElementById('user-surname').value.trim() || 'Kowalska';
+            const country = document.getElementById('user-country').value;
+            const lang = document.getElementById('user-lang').value;
+
+            const text = `Cześć! Mam na imię ${name}. Nazywam się ${surname}. Jestem ${country}. Mówię ${lang}. Bardzo miło mi Was poznać!`;
+            document.getElementById('full-profile-output').innerText = `"${text}"`;
+        }
+
+        function speakFullProfile() {
+            const name = document.getElementById('user-name').value.trim() || 'Anna';
+            const surname = document.getElementById('user-surname').value.trim() || 'Kowalska';
+            const country = document.getElementById('user-country').value;
+            const lang = document.getElementById('user-lang').value;
+
+            const fullText = `Cześć! Mam na imię ${name}. Nazywam się ${surname}. Jestem ${country}. Mówię ${lang}. Bardzo miło mi Was poznać!`;
+            speak(fullText);
+        }
+
+        // Check Grammar Exercise
+        function checkEx(inputId, correctAnswer) {
+            const input = document.getElementById(inputId);
+            const res = document.getElementById(inputId + '-res');
+            if (input.value.trim().toLowerCase() === correctAnswer) {
+                res.innerText = '✓ Верно! +10 XP';
+                res.className = 'text-xs font-bold text-emerald-600 ml-2';
+                addXP(10);
+            } else {
+                res.innerText = '✗ Ошибка';
+                res.className = 'text-xs font-bold text-rose-600 ml-2';
+            }
+        }
+
+        // Check Quiz Question
+        function checkQuiz(button, isCorrect) {
+            const buttons = button.parentElement.querySelectorAll('button');
+            buttons.forEach(btn => btn.disabled = true);
+
+            if (isCorrect) {
+                button.classList.add('bg-emerald-100', 'border-emerald-500', 'text-emerald-900', 'font-bold');
+                addXP(15);
+            } else {
+                button.classList.add('bg-rose-100', 'border-rose-500', 'text-rose-900');
+            }
+        }
+    </script>
+</body>
+</html>
